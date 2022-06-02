@@ -8,7 +8,7 @@ OP_CONST = 0  # Constant
 OP_ADD = 1  # Addition
 OP_SUB = 2  # Subtraction
 OP_MUL = 3  # Multiplication
-OP_DIV = 4  # Divition
+OP_DIV = 4  # Division
 
 OP_POW = 5  # Exponentiation
 OP_LOG = 8  # Logarithm
@@ -70,11 +70,11 @@ need_brackets = {OP_ADD: True,
 
 
 def permutation(n, k):
-    return math.factorial(n)/math.factorial(k)
+    return math.factorial(n) / math.factorial(k)
 
 
 def combination(n, k):
-    return permutation(n, k)/math.factorial(n-k)
+    return permutation(n, k) / math.factorial(n - k)
 
 
 def evaluate_operation(op, a, b=None):
@@ -131,7 +131,7 @@ class Node:
     def value(self):
         if self._value is None:
             assert self.op != OP_CONST
-            
+
             self._value = evaluate_operation(self.op, self.left.value, self.right.value)
 
             self._value = fit_to_int(self._value)
@@ -182,10 +182,10 @@ def enumerate_nodes(node_list, callback, max_depth):
         new_node_list.remove(right)
 
         for op in operators:
-            enumerate_nodes(new_node_list + [Node(left=left, right=right, op=op)], callback, max_depth-1)
+            enumerate_nodes(new_node_list + [Node(left=left, right=right, op=op)], callback, max_depth - 1)
 
             if not is_operator_commutative[op] and str(left) != str(right):
-                enumerate_nodes(new_node_list + [Node(left=right, right=left, op=op)], callback, max_depth-1)
+                enumerate_nodes(new_node_list + [Node(left=right, right=left, op=op)], callback, max_depth - 1)
 
 
 class CallbackFindTarget:
@@ -260,7 +260,7 @@ def select_int(prompt, default):
 
 def main():
     global operators
-    os.system('clear')
+    os.system('cls')
 
     if select_yes_no("Allow advanced operators?"):
         operators += advanced_operators
@@ -297,12 +297,13 @@ def main():
 
     print()
     start_time = time.time()
-    enumerate_nodes(node_list, callback, max_depth=len(node_list)-1)
+    enumerate_nodes(node_list, callback, max_depth=len(node_list) - 1)
     end_time = time.time()
 
     callback.show(execution_time=end_time - start_time)
 
     print()
     print("--------------------")
+
 
 main()
